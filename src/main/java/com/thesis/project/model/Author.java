@@ -2,25 +2,24 @@ package com.thesis.project.model;
 
 import javax.persistence.*;
 import java.io.Serializable;
-
+import java.util.List;
 
 @Entity
-@Table(name = "category")
-public class Category implements Serializable {
+@Table(name = "author")
+public class Author implements Serializable {
 
-    private static final long serialVersionUID = 8143608260230757323L;
+    private static final long serialVersionUID = -6662235570424736115L;
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "id", length = 11, nullable = false)
+    @Column(name = "id")
     private Long id;
 
     @Column(name = "name", length = 100, nullable = false)
     private String name;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "book_id")
-    private Book books;
+    @ManyToMany(mappedBy = "authors", fetch = FetchType.LAZY)
+    private List<Book> books;
 
     public Long getId() {
         return id;
@@ -38,12 +37,11 @@ public class Category implements Serializable {
         this.name = name;
     }
 
-    public Book getBooks() {
+    public List<Book> getBooks() {
         return books;
     }
 
-    public void setBooks(Book books) {
+    public void setBooks(List<Book> books) {
         this.books = books;
     }
 }
-

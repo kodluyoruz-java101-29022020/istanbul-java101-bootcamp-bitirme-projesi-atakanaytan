@@ -2,6 +2,7 @@ package com.thesis.project.model;
 
 import javax.persistence.*;
 import java.io.Serializable;
+import java.util.List;
 
 @Entity
 @Table(name = "book")
@@ -11,18 +12,22 @@ public class Book implements Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "id", length = 11, nullable = false)
+    @Column(name = "book_id", length = 11, nullable = false)
     private Long id;
 
     @Column(name = "name", length = 100, nullable = false)
     private String name;
 
-    @Column(name = "author", length = 100, nullable = false)
-    private String author;
+    @ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @JoinTable(
+            name = "book_author",
+            joinColumns = {@JoinColumn(name = "book_id") },
+            inverseJoinColumns = {@JoinColumn(name = "author_id") }
+    )
+    private List<Author> authors;
 
-    @ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-    @JoinColumn(name = "category", nullable = false)
-    private Category category;
+    @OneToMany(mappedBy = "books", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    private List<Category> category;
 
     @Column(name = "publication_year", nullable = false)
     private int publicationYear;
@@ -33,11 +38,11 @@ public class Book implements Serializable {
     @Column(name = "note", length = 1000, nullable = false)
     private String note;
 
-    public long getId() {
+    public Long getId() {
         return id;
     }
 
-    public void setId(long id) {
+    public void setId(Long id) {
         this.id = id;
     }
 
@@ -49,19 +54,19 @@ public class Book implements Serializable {
         this.name = name;
     }
 
-    public String getAuthor() {
-        return author;
+    public List<Author> getAuthors() {
+        return authors;
     }
 
-    public void setAuthor(String author) {
-        this.author = author;
+    public void setAuthors(List<Author> authors) {
+        this.authors = authors;
     }
 
-    public Category getCategory() {
+    public List<Category> getCategory() {
         return category;
     }
 
-    public void setCategory(Category category) {
+    public void setCategory(List<Category> category) {
         this.category = category;
     }
 
