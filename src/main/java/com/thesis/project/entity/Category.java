@@ -1,7 +1,10 @@
-package com.thesis.project.model;
+package com.thesis.project.entity;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import javax.persistence.*;
 import java.io.Serializable;
+import java.util.Set;
 
 
 @Entity
@@ -18,9 +21,9 @@ public class Category implements Serializable {
     @Column(name = "name", length = 100, nullable = false)
     private String name;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "book_id")
-    private Book books;
+    @ManyToMany(mappedBy = "category", fetch = FetchType.LAZY)
+    @JsonIgnore
+    private Set<Book> books;
 
     public Long getId() {
         return id;
@@ -38,12 +41,13 @@ public class Category implements Serializable {
         this.name = name;
     }
 
-    public Book getBooks() {
+    public Set<Book> getBooks() {
         return books;
     }
 
-    public void setBooks(Book books) {
+    public void setBooks(Set<Book> books) {
         this.books = books;
     }
+
 }
 

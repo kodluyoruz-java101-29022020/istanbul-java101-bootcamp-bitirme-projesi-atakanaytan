@@ -1,8 +1,10 @@
-package com.thesis.project.model;
+package com.thesis.project.entity;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import javax.persistence.*;
 import java.io.Serializable;
-import java.util.List;
+import java.util.Set;
 
 @Entity
 @Table(name = "author")
@@ -19,7 +21,8 @@ public class Author implements Serializable {
     private String name;
 
     @ManyToMany(mappedBy = "authors", fetch = FetchType.LAZY)
-    private List<Book> books;
+    @JsonIgnore
+    private Set<Book> books;
 
     public Long getId() {
         return id;
@@ -37,11 +40,12 @@ public class Author implements Serializable {
         this.name = name;
     }
 
-    public List<Book> getBooks() {
+    public Set<Book> getBooks() {
         return books;
     }
 
-    public void setBooks(List<Book> books) {
+    public void setBooks(Set<Book> books) {
         this.books = books;
     }
+
 }

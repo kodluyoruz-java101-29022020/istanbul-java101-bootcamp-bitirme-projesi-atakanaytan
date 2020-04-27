@@ -1,8 +1,8 @@
-package com.thesis.project.model;
+package com.thesis.project.entity;
 
 import javax.persistence.*;
 import java.io.Serializable;
-import java.util.List;
+import java.util.Set;
 
 @Entity
 @Table(name = "book")
@@ -18,16 +18,24 @@ public class Book implements Serializable {
     @Column(name = "name", length = 100, nullable = false)
     private String name;
 
+
     @ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     @JoinTable(
             name = "book_author",
             joinColumns = {@JoinColumn(name = "book_id") },
             inverseJoinColumns = {@JoinColumn(name = "author_id") }
     )
-    private List<Author> authors;
+    private Set<Author> authors;
 
-    @OneToMany(mappedBy = "books", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-    private List<Category> category;
+
+    @ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @JoinTable(
+            name = "book_categories",
+            joinColumns = {@JoinColumn(name = "book_id") },
+            inverseJoinColumns = {@JoinColumn(name = "category_id")}
+    )
+    private Set<Category> category;
+
 
     @Column(name = "publication_year", nullable = false)
     private int publicationYear;
@@ -54,19 +62,19 @@ public class Book implements Serializable {
         this.name = name;
     }
 
-    public List<Author> getAuthors() {
+    public Set<Author> getAuthors() {
         return authors;
     }
 
-    public void setAuthors(List<Author> authors) {
+    public void setAuthors(Set<Author> authors) {
         this.authors = authors;
     }
 
-    public List<Category> getCategory() {
+    public Set<Category> getCategory() {
         return category;
     }
 
-    public void setCategory(List<Category> category) {
+    public void setCategory(Set<Category> category) {
         this.category = category;
     }
 
@@ -93,4 +101,5 @@ public class Book implements Serializable {
     public void setNote(String note) {
         this.note = note;
     }
+
 }
