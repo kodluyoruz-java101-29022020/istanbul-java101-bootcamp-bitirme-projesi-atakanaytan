@@ -5,6 +5,7 @@ import com.thesis.project.dao.BookRepository;
 import com.thesis.project.service.BookService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
@@ -20,11 +21,13 @@ public class BookServiceImpl implements BookService {
     }
 
     @Override
+    @Transactional
     public Book findByBookId(Long bookId) {
         return bookRepository.findWithBookId(bookId);
     }
 
     @Override
+    @Transactional
     public List<Book> getAllBookList() {
         return bookRepository.findAllBooks();
     }
@@ -46,6 +49,7 @@ public class BookServiceImpl implements BookService {
     }
 
     @Override
+    @Transactional
     public List<Book> searchBookByName(String title) {
 
         return bookRepository.findByName(title);
