@@ -10,21 +10,21 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("/library/api")
+@RequestMapping("/library")
 public class BookController {
 
     @Autowired
     private BookService bookService;
 
     @GetMapping("/book/{book_id}")
-    public ResponseEntity<?> findBook(@PathVariable Long book_id) {
+    public ResponseEntity<?> findByBookId(@PathVariable Long book_id) {
 
         Book returnBook = bookService.findByBookId(book_id);
         return new ResponseEntity<Book>(returnBook, HttpStatus.OK);
     }
 
-    @GetMapping("/books")
-    public ResponseEntity<?> getAllBooks(){
+    @GetMapping("/book/list")
+    public ResponseEntity<?> getAllBooksList(){
 
         List<Book> returnBooks = bookService.getAllBookList();
         return new ResponseEntity<List<Book>>(returnBooks, HttpStatus.OK);
