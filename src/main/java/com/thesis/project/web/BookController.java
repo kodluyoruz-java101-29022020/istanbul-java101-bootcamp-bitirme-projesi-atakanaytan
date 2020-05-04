@@ -2,11 +2,14 @@ package com.thesis.project.web;
 
 import com.thesis.project.entity.Book;
 import com.thesis.project.service.BookService;
+import com.thesis.project.service.validation.ValidationErrorServices;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.util.List;
 
 @RestController
@@ -15,6 +18,9 @@ public class BookController {
 
     @Autowired
     private BookService bookService;
+
+    @Autowired
+    private ValidationErrorServices validationErrorServices;
 
     @GetMapping("/book/{book_id}")
     public ResponseEntity<?> findByBookId(@PathVariable Long book_id) {
@@ -31,7 +37,13 @@ public class BookController {
     }
 
     @PostMapping("/book")
-    public ResponseEntity<?> addBook(@RequestBody Book book) {
+    public ResponseEntity<?> addBook(@Valid @RequestBody Book book, BindingResult result) {
+
+        ResponseEntity<?> errorMap = validationErrorServices.ValidationErrorServices(result);
+
+        if (errorMap != null) {
+            return errorMap;
+        }
 
         Book newBook = bookService.addBook(book);
         return new ResponseEntity<Book>(newBook, HttpStatus.CREATED);

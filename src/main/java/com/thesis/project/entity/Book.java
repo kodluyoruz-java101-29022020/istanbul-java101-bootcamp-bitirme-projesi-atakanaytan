@@ -1,7 +1,12 @@
 package com.thesis.project.entity;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 import java.io.Serializable;
+import java.util.List;
 import java.util.Set;
 
 @Entity
@@ -15,10 +20,13 @@ public class Book implements Serializable {
     @Column(name = "book_id", length = 11, nullable = false)
     private Long id;
 
-    @Column(name = "name", length = 100, nullable = false)
+    @NotEmpty(message = "Please Enter The Book Name")
+    @Size(max = 100, message = "Name of the book can not be more than 100 character long")
+    @Column(name = "name")
     private String name;
 
 
+    @NotNull(message = "Please indicate the author or authors of the book")
     @ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     @JoinTable(
             name = "book_author",
@@ -28,22 +36,27 @@ public class Book implements Serializable {
     private Set<Author> authors;
 
 
+    @NotNull(message = "Please indicate the author or authors of the book")
     @ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     @JoinTable(
             name = "book_categories",
             joinColumns = {@JoinColumn(name = "book_id") },
             inverseJoinColumns = {@JoinColumn(name = "category_id")}
     )
-    private Set<Category> category;
+    private List<Category> category;
 
-
-    @Column(name = "publication_year", nullable = false)
+    @NotNull(message = "Please enter the publish year of the book")
+    @Column(name = "publication_year")
     private int publicationYear;
 
-    @Column(name = "description", length = 2000, nullable = false)
+    @NotEmpty(message = "Please enter the description of the book")
+    @Size(max = 2000, message = "Description can not be more than 2000 character long")
+    @Column(name = "description")
     private String description;
 
-    @Column(name = "note", length = 1000, nullable = false)
+    @NotEmpty(message = "Please enter the notes that want to attach it")
+    @Size(max = 500, message = "Notes can not be more than 500 character long")
+    @Column(name = "note")
     private String note;
 
     public Long getId() {
@@ -70,11 +83,11 @@ public class Book implements Serializable {
         this.authors = authors;
     }
 
-    public Set<Category> getCategory() {
+    public List<Category> getCategory() {
         return category;
     }
 
-    public void setCategory(Set<Category> category) {
+    public void setCategory(List<Category> category) {
         this.category = category;
     }
 
