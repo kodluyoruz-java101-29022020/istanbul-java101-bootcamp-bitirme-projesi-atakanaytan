@@ -6,7 +6,6 @@ import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import java.io.Serializable;
-import java.util.List;
 import java.util.Set;
 
 @Entity
@@ -43,7 +42,7 @@ public class Book implements Serializable {
             joinColumns = {@JoinColumn(name = "book_id") },
             inverseJoinColumns = {@JoinColumn(name = "category_id")}
     )
-    private List<Category> category;
+    private Set<Category> category;
 
     @NotNull(message = "Please enter the publish year of the book")
     @Column(name = "publication_year")
@@ -83,11 +82,11 @@ public class Book implements Serializable {
         this.authors = authors;
     }
 
-    public List<Category> getCategory() {
+    public Set<Category> getCategory() {
         return category;
     }
 
-    public void setCategory(List<Category> category) {
+    public void setCategory(Set<Category> category) {
         this.category = category;
     }
 
