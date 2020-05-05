@@ -21,7 +21,14 @@ public class BookServiceImpl implements BookService {
     @Override
     @MethodRunningTime(active = true)
     public Book addBook(Book book) {
-        return bookRepository.save(book);
+
+        Book saveBook =  bookRepository.save(book);
+
+        if (book == null){
+            throw new BookNotFoundException("Book with id: "+book.getId()+ " could not find");
+        }
+
+        return saveBook;
     }
 
     @Override
@@ -84,11 +91,12 @@ public class BookServiceImpl implements BookService {
     public List<Book> searchBookByName(String title) {
 
         List<Book> filteredBooks = bookRepository.findByName(title);
-        if (filteredBooks.size() < 1) {
+
+        if (filteredBooks == null) {
             throw new BookSearchNotFoundException("There is no any book or books with the title: "+title);
         }
 
-        return bookRepository.findByName(title);
+        return filteredBooks;
     }
 
 

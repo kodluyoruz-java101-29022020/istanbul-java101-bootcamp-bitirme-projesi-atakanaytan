@@ -39,7 +39,7 @@ class BookControllerIntegrationTest {
     @Test
     @Order(1)
     @Rollback(true)
-    public void findByBookId() {
+    public void testFindByBookId() {
 
         String url = prepareEmployeeRestServiceRootUrl() +"book/4";
 
@@ -53,7 +53,7 @@ class BookControllerIntegrationTest {
 
     @Test
     @Order(2)
-    public void getAllBooksList() {
+    public void testGetAllBooksList() {
 
         HttpHeaders headers = new HttpHeaders();
         headers.setContentType(MediaType.APPLICATION_JSON);
@@ -61,31 +61,7 @@ class BookControllerIntegrationTest {
         String url = prepareEmployeeRestServiceRootUrl() + "book/list";
 
         List<Book> bookList = new ArrayList<Book>();
-        Book book = new Book();
-
-        Author author = new Author();
-        author.setName("Fyodor Dostoevsky");
-
-        Set<Author> authors = new HashSet<Author>();
-        authors.add(author);
-
-        Category category1 = new Category();
-        category1.setName("Classics");
-
-        Category category2 = new Category();
-        category2.setName("Russian Literature");
-
-        Set<Category> categories = new HashSet<Category>();
-        categories.add(category1);
-        categories.add(category2);
-
-        book.setName("Crime and Punishment");
-        book.setAuthors(authors);
-        book.setCategory(categories);
-        book.setPublicationYear(1886);
-        book.setDescription("Raskolnikov, a destitute and desperate former student, wanders through the slums of St Petersburg " +
-                "and commits a random murder without remorse or regret.");
-        book.setNote("Need to read again after every 5 years");
+        Book book = generateBook();
 
         HttpEntity<Object> requestEntity = new HttpEntity<Object>(bookList,headers);
 
@@ -98,35 +74,11 @@ class BookControllerIntegrationTest {
 
     @Test
     @Order(3)
-    public void addBook() {
+    public void testAddBook() {
 
         String url = prepareEmployeeRestServiceRootUrl() +"book";
 
-        Book book = new Book();
-
-        Author author = new Author();
-        author.setName("Fyodor Dostoevsky");
-
-        Set<Author> authors = new HashSet<Author>();
-        authors.add(author);
-
-        Category category1 = new Category();
-        category1.setName("Classics");
-
-        Category category2 = new Category();
-        category2.setName("Russian Literature");
-
-        Set<Category> categories = new HashSet<Category>();
-        categories.add(category1);
-        categories.add(category2);
-
-        book.setName("Crime and Punishment");
-        book.setAuthors(authors);
-        book.setCategory(categories);
-        book.setPublicationYear(1886);
-        book.setDescription("Raskolnikov, a destitute and desperate former student, wanders through the slums of St Petersburg " +
-                "and commits a random murder without remorse or regret.");
-        book.setNote("Need to read again after every 5 years");
+        Book book = generateBook();
 
         ResponseEntity<Book> response = testRestTemplate.postForEntity(url, book, Book.class);
 
@@ -138,7 +90,7 @@ class BookControllerIntegrationTest {
 
     @Test
     @Order(4)
-    public void updateBook() {
+    public void testUpdateBook() {
         String url = prepareEmployeeRestServiceRootUrl() +"book/6";
 
         Book book = testRestTemplate.getForObject(url, Book.class);
@@ -153,7 +105,7 @@ class BookControllerIntegrationTest {
 
     @Test
     @Order(5)
-    public void deleteBook() {
+    public void testDeleteBook() {
 
         String url = prepareEmployeeRestServiceRootUrl() +"book/5";
 
@@ -172,7 +124,7 @@ class BookControllerIntegrationTest {
 
     @Test
     @Order(7)
-    public void searchBook() {
+    public void testSearchBook() {
 
         String url = prepareEmployeeRestServiceRootUrl() + "book/search/title/Punishment";
         String getBookUrl = prepareEmployeeRestServiceRootUrl() +"book/10";
@@ -202,6 +154,39 @@ class BookControllerIntegrationTest {
     private String prepareEmployeeRestServiceRootUrl() {
 
         return "http://localhost:" + tomcatPortNo + "/library/";
+    }
+
+    private Book generateBook(){
+        Book book = new Book();
+
+        book.setId(7L);
+        Author author = new Author();
+        author.setName("Leo Tolstoy");
+
+        Set<Author> authors = new HashSet<Author>();
+        authors.add(author);
+
+        Category category1 = new Category();
+        category1.setName("Classics");
+
+        Category category2 = new Category();
+        category2.setName("Russian Literature");
+
+        Set<Category> categories = new HashSet<Category>();
+        categories.add(category1);
+        categories.add(category2);
+
+        book.setName("War and Peace");
+        book.setAuthors(authors);
+        book.setCategory(categories);
+        book.setPublicationYear(1869);
+        book.setDescription("War and Peace (pre-reform Russian: Война и миръ; post-reform Russian: Война и мир, romanized: Vojna i mir [vɐjˈna i ˈmʲir]) is a novel by the Russian author Leo Tolstoy, published serially, then in its entirety in 1869. " +
+                "It is regarded as one of Tolstoy's finest literary achievements and remains a classic of world literature\n" +
+                "The novel chronicles the French invasion of Russia and the impact of the Napoleonic era on Tsarist society " +
+                "through the stories of five Russian aristocratic families.");
+        book.setNote("Have not read it yet. Next month i shold start it to read it.");
+
+        return book;
     }
 
 }
