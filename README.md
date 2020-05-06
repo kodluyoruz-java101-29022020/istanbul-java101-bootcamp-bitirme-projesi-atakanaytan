@@ -1,4 +1,33 @@
-# bootcamp-final-project
-İstanbul Java101 Bootcamp Final Project
 
-Bitirme projesinin detayları PDF olarak repository içindedir. :)
+# Spring Boot RESTful API - JPA Hibernate MySQL Example Thesis Project #
+*by Atakan Aytan
+
+RESTful API using Spring Boot, JPA hibernate and Mysql, ManyToManybidirectional mapping
+
+&nbsp;
+
+
+## Relation ## 
+
+### Bidirectional Mapping ### 
+
+* Book - Author (Many-To-Many)
+* Book - Category (Many-To-Many)
+
+&nbsp;
+
+## RESTful API Server ##
+
+&nbsp;
+API Description for the Project**
+## Books Controller ##
+
+METHOD | PATH | DESCRIPTION 
+------------|-----|------------
+GET | /library/book/{book_id} | Gets a Book with the given id
+GET | /library/book/list | Gets the total list of books
+GET | /book/search/title/{book_title} | Gets a book or book with a searched title.
+POST | /library/book | Saves a book
+PATCH | /library/book/{book_id} | Updates the book with the given id
+DELETE | /library/book/{book_id} | deletes a book with the given id
+ 
