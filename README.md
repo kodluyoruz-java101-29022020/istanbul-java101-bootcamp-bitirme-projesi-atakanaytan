@@ -1,11 +1,9 @@
 
 # Spring Boot RESTful API - JPA Hibernate MySQL Example Thesis Project #
-*by Atakan Aytan
 
-RESTful API using Spring Boot, JPA hibernate and Mysql, ManyToManybidirectional mapping
+RESTful API using Spring Boot, JPA hibernate and Mysql, ManyToMany bidirectional mapping
 
 &nbsp;
-
 
 ## Relation ## 
 
@@ -17,11 +15,11 @@ RESTful API using Spring Boot, JPA hibernate and Mysql, ManyToManybidirectional 
 &nbsp;
 
 ## RESTful API Server ##
+API Description for the Project**
 
 &nbsp;
-API Description for the Project**
-## Books Controller ##
 
+## Book Controller ##
 METHOD | PATH | DESCRIPTION 
 ------------|-----|------------
 GET | /library/book/{book_id} | Gets a Book with the given id
