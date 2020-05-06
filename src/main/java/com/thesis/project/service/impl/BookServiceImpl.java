@@ -18,6 +18,7 @@ public class BookServiceImpl implements BookService {
     @Autowired
     BookRepository bookRepository;
 
+    //Adds new Book to library
     @Override
     @MethodRunningTime(active = true)
     public Book addBook(Book book) {
@@ -31,6 +32,7 @@ public class BookServiceImpl implements BookService {
         return saveBook;
     }
 
+    //Fetches book with given Id as a parameter
     @Override
     @Transactional
     @MethodRunningTime(active = true)
@@ -45,6 +47,7 @@ public class BookServiceImpl implements BookService {
         return book;
     }
 
+    //Fetches all the books saved from the library.
     @Override
     @Transactional
     @MethodRunningTime(active = true)
@@ -59,7 +62,9 @@ public class BookServiceImpl implements BookService {
         return books;
     }
 
+    //Updates the book
     @Override
+    @MethodRunningTime(active = true)
     public Book updateBook(Book book, Long bookId) {
 
 
@@ -74,17 +79,22 @@ public class BookServiceImpl implements BookService {
         return bookRepository.save(updateBook);
     }
 
-
+    //Deletes book
     @Override
     @MethodRunningTime(active = true)
     public void deleteBook(Long bookId) {
 
         Book deletedBook= findByBookId(bookId);
 
+        if (deletedBook == null){
+            throw new BookNotFoundException("Book with id: "+bookId+ " could not find");
+        }
+
         deletedBook = bookRepository.findWithBookId(bookId);
         bookRepository.delete(deletedBook);
     }
 
+    //Searches books with the given title
     @Override
     @Transactional
     @MethodRunningTime(active = true)
@@ -92,12 +102,11 @@ public class BookServiceImpl implements BookService {
 
         List<Book> filteredBooks = bookRepository.findByName(title);
 
-        if (filteredBooks == null) {
+        if (filteredBooks.size() < 1) {
             throw new BookSearchNotFoundException("There is no any book or books with the title: "+title);
         }
 
         return filteredBooks;
     }
-
 
 }

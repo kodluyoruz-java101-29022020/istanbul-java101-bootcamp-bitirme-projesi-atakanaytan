@@ -46,7 +46,7 @@ public class Book implements Serializable {
 
     @NotNull(message = "Please enter the publish year of the book")
     @Column(name = "publication_year")
-    private int publicationYear;
+    private Integer publicationYear;
 
     @NotEmpty(message = "Please enter the description of the book")
     @Size(max = 2000, message = "Description can not be more than 2000 character long")
@@ -90,11 +90,11 @@ public class Book implements Serializable {
         this.category = category;
     }
 
-    public int getPublicationYear() {
+    public Integer getPublicationYear() {
         return publicationYear;
     }
 
-    public void setPublicationYear(int publicationYear) {
+    public void setPublicationYear(Integer publicationYear) {
         this.publicationYear = publicationYear;
     }
 
